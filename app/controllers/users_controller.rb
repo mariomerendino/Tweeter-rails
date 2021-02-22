@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  skip_before_action :authenitcate, only: [:login]
   # Create a new User
   def create
     user = User.create!(
@@ -9,37 +10,22 @@ class UsersController < ApplicationController
       token: SecureRandom.hex(20)
     )
 
-    if user.present?
-      render json: {
-        status: :created,
-        logged_in: true,
-        user: user
-      }
+    if user
+      render json: { status: :created, user: user }
     else
-      render json: {
-        status: 500,
-        logged_in: false,
-        user: nil
-      }
+      render json: { status: 500, user: nil }
     end
   end
 
   def login
-    user = User.
-      find_by(email: params[:user][:email]).
-      try(:authenitcate, params[:user][:password])
+    user = User.find_by(email: params[:user][:email])
+    user&.authenticate(params[:user][:password])
 
-    if user.present?
-      render json: {
-        logged_in: true,
-        user: user
-      }
+    if user
+      user.update_attribute(:token, SecureRandom.hex(20))
+      render json: { user: user }
     else
-      render json: {
-        status: 401,
-        logged_in: false,
-        user: nil
-      }
+      render json: { status: 401, user: nil }
     end
   end
 end

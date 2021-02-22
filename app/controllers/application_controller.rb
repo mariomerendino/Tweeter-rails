@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   private
 
   def authenitcate
-    authenitcate_or_request_with_http_token do |token, _options|
+    authenticate_or_request_with_http_token do |token, _options|
       User.find_by(token: token)
     end
   end
