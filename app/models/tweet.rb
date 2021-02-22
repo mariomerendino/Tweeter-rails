@@ -1,3 +1,5 @@
+# The heart & soul of tweeter, "the tweet". A user can create many tweets.
+# A "tweet" is just some text that a user can "post"
 class Tweet < ApplicationRecord
   belongs_to :user
   has_many :likes
