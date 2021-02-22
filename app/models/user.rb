@@ -22,4 +22,12 @@ class User < ApplicationRecord
     following_ids = follows.pluck(:following_id)
     User.where(id: following_ids)
   end
+
+  def like_tweet!(tweet)
+    tweet.likes.create!(user_id: id)
+  end
+
+  def unlike_tweet!(tweet)
+    tweet.likes.find_by(user_id: id).delete!
+  end
 end

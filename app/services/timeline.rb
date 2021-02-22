@@ -26,9 +26,11 @@ class Timeline
     tweets = Tweet.joins(:user).where(user_id: users_to_get_tweets_from.pluck(:id)).order(:created_at)
     tweets.each_with_object([]) do |tweet, object|
       object << {
-        tweet_text: tweet.text, 
-        username: tweet.user.username, 
-        created_at: tweet.created_at
+        tweet_id: tweet.id,
+        tweet_text: tweet.text,
+        username: tweet.user.username,
+        created_at: tweet.created_at,
+        like_count: tweet.number_of_likes
       }
     end
   end
