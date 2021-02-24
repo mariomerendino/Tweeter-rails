@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_action :authenitcate, only: [:login]
+  skip_before_action :authenitcate
   # Create a new User
   def create
     user = User.create!(
@@ -23,7 +23,7 @@ class UsersController < ApplicationController
 
     if user
       user.update_attribute(:token, SecureRandom.hex(20))
-      render json: { user: user }
+      render json: { status: 200, user: user }
     else
       render json: { status: 401, user: nil }
     end
