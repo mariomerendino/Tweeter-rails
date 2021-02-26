@@ -22,4 +22,6 @@ test:
 
 production:
   <<: *default
+  url: <%= ENV['DATABASE_URL'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
   database: tweeter_prod
