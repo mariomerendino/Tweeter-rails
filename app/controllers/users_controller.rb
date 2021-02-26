@@ -15,6 +15,8 @@ class UsersController < ApplicationController
     else
       render json: { status: 500, user: nil }
     end
+  rescue
+    render json: { message: 'Something went wrong' }
   end
 
   def login
